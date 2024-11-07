@@ -14,7 +14,7 @@ import java.io.IOException;
 
 public class DataSender {
     private static final String TAG = "DataSender";
-    private static final String SERVER_URL = "http://192.168.45.171:5000/gps-data";  // PC IP 주소를 입력
+    private static final String SERVER_URL = "http://34.47.87.250:5000/gps-data";  // PC IP 주소를 입력
     private OkHttpClient client;
 
     // OkHttpClient 초기화
@@ -23,7 +23,7 @@ public class DataSender {
     }
 
     // GPS 데이터를 서버로 전송하는 메서드
-    public void sendData(double latitude, double longitude, double altitude, float heading) {
+    public void sendData(double latitude, double longitude, double altitude, float heading, String encodedImage) {
         try {
             // JSON 형식으로 데이터를 구성
             JSONObject json = new JSONObject();
@@ -31,6 +31,7 @@ public class DataSender {
             json.put("longitude", longitude);
             json.put("altitude", altitude);
             json.put("heading", heading);
+            json.put("image", encodedImage);
 
             // JSON을 RequestBody로 변환
             RequestBody body = RequestBody.create(
