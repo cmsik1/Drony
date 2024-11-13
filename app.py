@@ -37,7 +37,8 @@ class GPSData(BaseModel):
     altitude: float
     heading: float
     image: str  # Base64 인코딩된 이미지 데이터
-
+    
+from deepLearning import *
 from coordinate import *
 # /gps-data 엔드포인트로 POST 요청을 받는 API 생성
 @app.post("/gps-data")
@@ -47,8 +48,6 @@ async def receive_gps_data(data: GPSData):
         print(
             f"Received GPS Data - Latitude: {data.latitude}, Longitude: {data.longitude}, Altitude: {data.altitude}, Heading: {data.heading}")
 
-        #좌표 계산(객체 좌표로 수정해야 함)
-        CalculateCoordinate(5000, 300, data)
 
         # Base64 이미지 데이터를 파일로 저장
         image_data = base64.b64decode(data.image)
@@ -58,6 +57,15 @@ async def receive_gps_data(data: GPSData):
         with open(image_filename, "wb") as img_file:
             img_file.write(image_data)
 
+         # 딥러닝 후 경계상자가 표시된 이미지(yolo_image_base64), 경계상자의 중앙좌표 반환(center_coordinates)
+        yolo_image_base64, center_coordinates = detect_and_draw_boxes(image_data)
+        
+        #좌표 계산(객체 좌표로 수정해야 함)
+        #CalculateCoordinate(5000, 300, data)
+        # 경계상자의 갯수 = len(center_coordinates)
+        CalculateCoordinate(center_coordinates[0]["center_x"], center_coordinates[0]["center_y"])
+        
+        
         print(f"Image saved as {image_filename}")
 
         return {"status": "success", "message": "Data and image received successfully"}
