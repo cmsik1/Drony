@@ -2,5 +2,7 @@
     <domain-config cleartextTrafficPermitted="true">
         <!-- HTTP 통신을 허용할 IP 주소 또는 도메인 이름을 입력 -->
         <domain includeSubdomains="true">34.47.87.250</domain>
+        <domain includeSubdomains="true">34.64.75.204</domain>
+        <domain includeSubdomains="true">35.229.212.153</domain>
     </domain-config>
 </network-security-config>
