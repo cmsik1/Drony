@@ -1,4 +1,4 @@
-package com.example.imagegpsuploader;
+package com.example.imagegpsuploader2;
 
 import okhttp3.RequestBody;
 import retrofit2.Call;

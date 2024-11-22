@@ -1,4 +1,4 @@
-package com.example.imagegpsuploader;
+package com.example.imagegpsuploader2;
 
 import org.junit.Test;
 
