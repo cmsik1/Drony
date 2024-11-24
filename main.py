@@ -6,10 +6,11 @@ from fastapi.responses import HTMLResponse
 # FastAPI 앱 초기화
 app = FastAPI()
 
+# return 제거(print로 표시)
 # GPS 데이터 수신 엔드포인트
 @app.post("/gps-data")
 async def gps_data_endpoint(data: Data):
-    return await receive_data(data)
+    await receive_data(data)
 
 # 이미지 목록 조회 엔드포인트
 @app.get("/")
