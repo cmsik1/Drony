@@ -163,7 +163,14 @@ public class MainActivity extends AppCompatActivity implements GPSManager.OnLoca
     @Override
     public void onLocationReceived(GPSData gpsData) {
         if (encodedImage != null && gpsData != null) {
-            dataSender.sendData(gpsData.getLatitude(), gpsData.getLongitude(), gpsData.getAltitude(), gpsData.getHeading(), encodedImage, this);
+            dataSender.sendData(
+                    gpsData.getLatitude(),
+                    gpsData.getLongitude(),
+                    gpsData.getAltitude(),
+                    gpsData.getHeading(),
+                    encodedImage,
+                    this
+            );
         }
     }
 
@@ -181,32 +188,21 @@ public class MainActivity extends AppCompatActivity implements GPSManager.OnLoca
 
     // 로그 추가 메서드
     private void addLogEntry(String message, boolean isSuccess) {
-        // 타임스탬프 생성
         String timeStamp = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
         String logMessage = "[" + timeStamp + "] " + message;
 
-        // SpannableString을 사용하여 색상을 다르게 설정
         SpannableString spannable = new SpannableString(logMessage);
+        spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#B0BEC5")), 0, timeStamp.length() + 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        // 타임스탬프 부분 색상 설정 (회색)
-        spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#B0BEC5")),
-                0, timeStamp.length() + 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        int messageColor = isSuccess ? Color.parseColor("#4CAF50") : Color.parseColor("#FF5252");
+        spannable.setSpan(new ForegroundColorSpan(messageColor), timeStamp.length() + 3, logMessage.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        // 메시지 부분 색상 설정
-        int messageColor = isSuccess ? Color.parseColor("#4CAF50") : Color.parseColor("#FF5252");  // 성공: 라임 그린, 실패: 밝은 레드
-        spannable.setSpan(new ForegroundColorSpan(messageColor),
-                timeStamp.length() + 3, logMessage.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        // TextView에 설정
         TextView logText = new TextView(this);
-        logText.setText(spannable);  // SpannableString 적용
+        logText.setText(spannable);
         logText.setTextSize(16);
         logText.setPadding(8, 8, 8, 8);
 
-        // 로그 컨테이너에 추가
         logContainer.addView(logText);
-
-        // 스크롤뷰 최하단으로 이동
         logScrollView.post(() -> logScrollView.fullScroll(View.FOCUS_DOWN));
     }
 
@@ -215,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements GPSManager.OnLoca
     protected void onDestroy() {
         super.onDestroy();
         if (handler != null && captureRunnable != null) {
-            handler.removeCallbacks(captureRunnable);  // 반복 작업 중지
+            handler.removeCallbacks(captureRunnable);
         }
     }
 }

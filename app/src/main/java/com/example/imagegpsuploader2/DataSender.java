@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class DataSender {
     private static final String TAG = "DataSender";
-    private static final String SERVER_URL = "http://34.47.87.250:5000/gps-data";
+    private static final String SERVER_URL = "http://34.64.75.204:5000/gps-data";
     private OkHttpClient client;
 
     public DataSender() {
